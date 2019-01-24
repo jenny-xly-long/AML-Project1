@@ -1,11 +1,8 @@
 import pandas as pd
 import numpy as np
 import json
-import re
 import time
 import matplotlib
-from collections import Counter
-from spellchecker import SpellChecker
 
 from preprocess import preprocess
 from feature_extraction import feature_extraction
@@ -48,36 +45,39 @@ test = feature_extraction(test, words).values.astype(float)
 # Train Model
 
 # Runtime for closed form VS. GD
+X_0 = train[:,0:3]
+y = train[:,-1]
+# Closed Form
 start_cf = time.time()
-Linear_regression(X, y)
+Linear_regression(X_0, y)
 end_cf = time.time()
+time_cf = end_cf - start_cf
 
+# GD
 start_gd = time.time()
-Linear_regression(X,y, None, alpha_0 = 1e-06, b = 0, eps = 1e-10)
+Linear_regression(X_0, y, None, alpha_0 = 1e-06, b = 0, eps = 1e-10)
 end_gd = time.time()
+time_gd = end_gd - start_gd
 
 # Compare different learning rate/beta for GD / plot
 
 step_sizes = [5e-05, 1e-05, 5e-06, 1e-06, 5e-07, 1e-07, 5e-08, 1e-08]
 initial_weights = np.random(-1, 1, (10, 4))
-X = train[:,0:3]
-y = train[:,-1]
 results = list(list())
 for i in range(step_sizes.shape[0]):
     for j in range(initial_weights.shape[0]):
         results[i][j]=Linear_regression(X, y, initial_weights[j,], alpha_0=step_sizes[i], b=0, eps= 1e-10)[1]
     
 # Compare 0-60-160 most common words
-X_0 = train[:,0:3]
-w_optim_0 = Linear_regression(X, y)
+w_optim_0 = Linear_regression(X_0, y)
 
 X_60 = train[:,0:63]
-w_optim_60 = Linear_regression(X, y)
+w_optim_60 = Linear_regression(X_60, y)
 
 X_160 = train[:,0:163]
-w_optim_160 = Linear_regression(X, y)
+w_optim_160 = Linear_regression(X_60, y)
 
 # Run model with added features on validation set
-X = train[:,:]
-w_optim = Linear_regression(X, y)
+X_all = train[:,:]
+w_optim = Linear_regression(X_all, y)
 # Run best model on test set

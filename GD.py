@@ -1,3 +1,8 @@
+import numpy as np
+
+def MSE(X, y, w):
+    return np.mean((X @ w-y)**2)
+
 def gradient_descent(X, y, w_0, alpha_0, b, eps):
 
     # local variables

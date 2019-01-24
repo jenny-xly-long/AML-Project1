@@ -1,6 +1,4 @@
-from GD import gradient_descent
-def MSE(X, y, w):
-    return np.mean((X @ w-y)**2)
+import GD 
 
 def Linear_regression(X, y, method = 0, w_0 = None, alpha_0 = 1, b = 1, eps = 1e-06):
 

@@ -1,3 +1,9 @@
+import numpy as np
+import pandas as pd
+import re
+from collections import Counter
+from spellchecker import SpellChecker
+
 def feature_extraction(dataset, words):
     
     # Feature: Does the comment contain a question mark
