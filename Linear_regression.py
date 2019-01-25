@@ -1,4 +1,5 @@
-import GD 
+import numpy as np
+from GD import gradient_descent
 
 def Linear_regression(X, y, method = 0, w_0 = None, alpha_0 = 1, b = 1, eps = 1e-06):
 
