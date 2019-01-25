@@ -2,11 +2,11 @@ import pandas as pd
 import numpy as np
 import json
 import time
-import matplotlib
+import matplotlib.pyplot as plt
 
 from preprocess import preprocess
 from feature_extraction import feature_extraction
-import Linear_regression
+from Linear_regression import Linear_regression
 
 
 # Data preprocessing
@@ -60,13 +60,12 @@ end_gd = time.time()
 time_gd = end_gd - start_gd
 
 # Compare different learning rate/beta for GD / plot
-
 step_sizes = [5e-05, 1e-05, 5e-06, 1e-06, 5e-07, 1e-07, 5e-08, 1e-08]
-initial_weights = np.random(-1, 1, (10, 4))
-results = list(list())
-for i in range(step_sizes.shape[0]):
+initial_weights = np.random.uniform(-1, 1, (10, 4))
+results = np.zeros(shape = (len(step_sizes), initial_weights.shape[0]))
+for i in range(len(step_sizes)):
     for j in range(initial_weights.shape[0]):
-        results[i][j]=Linear_regression(X, y, initial_weights[j,], alpha_0=step_sizes[i], b=0, eps= 1e-10)[1]
+        results[i][j]=Linear_regression(X_0, y, w_0 = initial_weights[j,:], alpha_0=step_sizes[i], b=0, eps= 1e-10)[1]
     
 # Compare 0-60-160 most common words
 w_optim_0 = Linear_regression(X_0, y)
@@ -78,6 +77,6 @@ X_160 = train[:,0:163]
 w_optim_160 = Linear_regression(X_60, y)
 
 # Run model with added features on validation set
-X_all = train[:,:]
+X_all = train
 w_optim = Linear_regression(X_all, y)
 # Run best model on test set
