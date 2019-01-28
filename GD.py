@@ -1,7 +1,7 @@
 import numpy as np
 
 def MSE(X, y, w):
-    return np.mean((X @ w-y)**2)
+    return np.mean((X @ w - y)**2)
 
 def gradient_descent(X, y, w_0, alpha_0, b, eps):
 
@@ -40,4 +40,4 @@ def gradient_descent(X, y, w_0, alpha_0, b, eps):
             break
 
     # returns the optimal weights
-    return (current_w, MSEs)
+    return current_w, MSEs
