@@ -4,6 +4,8 @@ import json
 import time
 import matplotlib.pyplot as plt
 
+from feature_exploration import feature_exploration
+from feature_exploration_plot import feature_exploration_plot
 from preprocess import preprocess
 from feature_extraction import feature_extraction
 from MSE import MSE
@@ -37,6 +39,10 @@ validation.index -= 10000
 # Last 1000 as test set
 test = df.iloc[11000:12000,:]
 test.index -= 11000
+
+# Explores the effect of proposed features on the targets
+data_feature_explore = feature_exploration(train)
+feature_exploration_plot(data_feature_explore)
 
 # Preprocess the data
 train, m_c_words = preprocess(train,160)
@@ -132,7 +138,7 @@ for i in range(initial_weights.shape[0]):
 # Plots the different learning curves
 colors = ["red", "blue", "green", "orange", "black"]
 
-plt.figure(1)
+plt.figure()
 for i in range(len(step_sizes)):
     plt.plot(np.linspace(0, 10 * len(results_step_sizes[i]), len(results_step_sizes[i])),
              results_step_sizes[i], color = colors[i], label = 'alpha =' + str(step_sizes[i]))
@@ -142,7 +148,7 @@ plt.legend(loc='upper right')
 plt.xlim(0,200)
 plt.savefig('step_sizes.pdf')
 
-plt.figure(2)
+plt.figure()
 for i in range(initial_weights.shape[0]):
     plt.plot(np.linspace(0, 10 * len(results_initial_weights[i]), len(results_initial_weights[i])), results_initial_weights[i], color = "b")
 plt.xlabel("number of iterations")
