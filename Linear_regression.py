@@ -1,6 +1,6 @@
 import numpy as np
 from GD import gradient_descent
-from GD import MSE
+from MSE import MSE
 
 def Linear_regression(X, y, method = 0, w_0 = None, alpha_0 = 1, b = 1, eps = 1e-06):
 
@@ -15,7 +15,6 @@ def Linear_regression(X, y, method = 0, w_0 = None, alpha_0 = 1, b = 1, eps = 1e
         A = X_T @ X
 
         optim_w = np.linalg.solve(A,b)
-        #optim_w = np.linalg.inv(A)@b
         MSE_cf = MSE(X, y, optim_w)
 
         return optim_w, MSE_cf
@@ -25,7 +24,7 @@ def Linear_regression(X, y, method = 0, w_0 = None, alpha_0 = 1, b = 1, eps = 1e
         if w_0 is None:
             w_0 = np.zeros(p)
 
-        optim_w= gradient_descent(X, y, w_0, alpha_0, b, eps)[0]
+        optim_w, MSE_s = gradient_descent(X, y, w_0, alpha_0, b, eps)
         MSE_gd = MSE(X, y, optim_w)
 
-        return optim_w, MSE_gd
+        return optim_w, MSE_gd, MSE_s

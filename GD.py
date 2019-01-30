@@ -1,7 +1,5 @@
 import numpy as np
-
-def MSE(X, y, w):
-    return np.mean((X @ w - y)**2)
+from MSE import MSE
 
 def gradient_descent(X, y, w_0, alpha_0, b, eps):
 
@@ -28,7 +26,7 @@ def gradient_descent(X, y, w_0, alpha_0, b, eps):
         prev_w = current_w
         current_w = current_w - 2 * alpha * (crossprod_X @ current_w - y_term)
 
-        # updates MSEs
+        # updates MSEs at each 10th iteration
         if i % 10  == 0:
             MSEs.append(MSE(X, y, current_w))
 
@@ -39,5 +37,5 @@ def gradient_descent(X, y, w_0, alpha_0, b, eps):
         if np.linalg.norm(current_w - prev_w) < eps:
             break
 
-    # returns the optimal weights
+    # returns the optimal weights and the MSEs at each 10th iteration
     return current_w, MSEs
